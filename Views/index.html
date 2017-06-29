@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>
+            Quote Stream
+        </title>
+    	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
+    	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.js"></script>
+        <script type="text/javascript" src="http://localhost:3000/socket.io/socket.io.js"></script>
+        <style>
+            #sub{
+                width: 100%;
+                background-color: chocolate;
+                height: 10px;
+            }
+
+            table{
+                padding: 20px;
+                border: 2px solid black;
+                background-color: lightyellow;
+            }
+
+            th,td{
+                height:50px;
+                padding: 20px;
+            }
+        </style>
+    </head>
+    <script type="text/javascript">
+        'use strict';
+
+
+
+        $(document).ready(function() {
+            var tickers = "NSE:DABUR,ACC,ABB,MARUTI";
+            var socket = io.connect('http://localhost:3000'); // jshint ignore:line
+
+            socket.on(tickers, function(response) {
+                var DATA = $.parseJSON(response);
+                var datum = [];
+                var chng_perc = [];
+                var table = "";
+                for( var i=0; i< DATA.length;i++){
+                    datum.push(DATA[i].price);
+
+                    var style = "style='background-color: white'";
+                    if(DATA[i].change_percent > 0 ){
+                        style = "style='background-color: #4caf50'";
+                    }
+                    else if(DATA[i].change_percent < 0 ){
+                        style = "style='background-color: #f44336'"
+                    }
+                    table += "<tr><td style='background-color: #7f9db9'>" +
+                        DATA[i].ticker+ "</td><td "+ style+ ">" +
+                        DATA[i].price+ "</td><td style='background-color: orange'>" +
+                        DATA[i].change_percent+ "</td></tr>";
+
+                }
+
+                var table1 = "<tr><th>Stock</th><th>Price</th><th>Percentage Change</th></tr>" + table;
+
+                $('#tbl')[0].innerHTML = table1;
+                var quoted = $('#quotes');
+                var data = $('<pre>' + datum + '</pre><hr />');
+                $('#quotes').empty();
+                $('#quotes').append(data);
+
+            });
+
+
+            $(window).load(function () {
+                socket.emit('ticker', tickers);
+            })
+
+
+        });
+    </script>
+    <body>
+        <h1>This is the stock app</h1>
+        <div id="quotes"><p></p></div>
+        <div id="sub"></div>
+        <div><h3>This App gives the real time stock feeds</h3></div>
+        <div id="table">
+            <table id="tbl">
+                <tr>
+                    <th>Stock</th>
+                    <th>Price</th>
+                    <th>Percentage Change</th>
+                </tr>
+                <tr>
+                    <td>DABUR</td>
+                    <td> &#8377 0</td>
+                    <td>0.00</td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>

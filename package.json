@@ -1,0 +1,31 @@
+{
+  "name": "Stock-Quotes-LiveFeed",
+  "version": "0.3.0",
+  "description": "Push JSON stock quotes in real-time over websockets",
+  "main": "server.js",
+  "dependencies": {
+    "cors": "^2.8.1",
+    "express": "^3.21.2",
+    "socket.io": "^1.5.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:jayp96/Stock-Quotes-LiveFeed.git"
+  },
+  "author": "Jayant Prabhakar",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/nodesocket/Stock-Quotes-LiveFeed/issues"
+  },
+  "homepage": "https://github.com/nodesocket/Stock-Quotes-LiveFeed#readme",
+  "keywords": [
+    "This",
+    "is",
+    "good"
+  ]
+}
